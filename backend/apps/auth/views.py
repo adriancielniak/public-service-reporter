@@ -8,6 +8,7 @@ from .serializers import RegisterSerializer
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
+# dodac weryfikacje np email
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
