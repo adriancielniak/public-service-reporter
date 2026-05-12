@@ -5,9 +5,8 @@ from rest_framework import status
 from .serializers import RegisterSerializer
 
 
-# uruchomieniu DB:
-# from django.contrib.auth import authenticate
-# from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 class RegisterView(APIView):
     def post(self, request):
@@ -15,9 +14,9 @@ class RegisterView(APIView):
         if serializer.is_valid():
 
             # zapis do bazy danych
-            # user = serializer.save()
-            # user.set_password(serializer.validated_data['password'])
-            # user.save()
+            user = serializer.save()
+            user.set_password(serializer.validated_data['password'])
+            user.save()
 
             # mock poprawnej odpowiedzi:
             mock_user_data = serializer.validated_data
@@ -42,17 +41,17 @@ class LoginView(APIView):
         if not username or not password:
             return Response({"error": "Podaj login i hasło"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # user = authenticate(username=username, password=password)
-        # if user is not None:
-        #     token, _ = Token.objects.get_or_create(user=user)
-        #     return Response({"token": token.key, "role": user.role})
-        # else:
-        #     return Response({"error": "Błędne dane logowania"}, status=status.HTTP_401_UNAUTHORIZED)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key, "role": user.role})
+        else:
+            return Response({"error": "Błędne dane logowania"}, status=status.HTTP_401_UNAUTHORIZED)
 
         # mock:
-        return Response({
-            "message": "User logged in successfully (MOCK)",
-            "token": "mock_token_xyz123abc",
-            "username": username,
-            "role": "standard"
-        }, status=status.HTTP_200_OK)
+        # return Response({
+        #     "message": "User logged in successfully (MOCK)",
+        #     "token": "mock_token_xyz123abc",
+        #     "username": username,
+        #     "role": "standard"
+        # }, status=status.HTTP_200_OK)
