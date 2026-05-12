@@ -27,7 +27,6 @@ class RegisterView(APIView):
                     "username": mock_user_data.get("username"),
                     "role": mock_user_data.get("role", "standard"),
                     "data": mock_user_data.get("data", ""),
-                    "reports": mock_user_data.get("reports", [])
                 }
             }, status=status.HTTP_201_CREATED)
 

@@ -20,4 +20,5 @@ urlpatterns = [
     path('api/health/', health),
     path('api/v1/', include('rest_framework.urls')),
     path('api/', include('apps.auth.urls')),
+    path('api/', include('apps.reports.urls')),
 ]
