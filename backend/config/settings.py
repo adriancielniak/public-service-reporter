@@ -25,7 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'apps.auth',
 ]
+
+AUTH_USER_MODEL = 'service_auth.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,16 +61,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# temp
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'public_service_db'),
-        'USER': os.getenv('POSTGRES_USER', 'reporter'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'reporter_pass'),
-        'HOST': os.getenv('DB_HOST', 'db'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('POSTGRES_DB', 'public_service_db'),
+#         'USER': os.getenv('POSTGRES_USER', 'reporter'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'reporter_pass'),
+#         'HOST': os.getenv('DB_HOST', 'db'),
+#         'PORT': os.getenv('DB_PORT', '5432'),
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
