@@ -19,6 +19,6 @@ urlpatterns = [
     path('', api_root),
     path('api/health/', health),
     path('api/v1/', include('rest_framework.urls')),
-    path('api/', include('apps.auth.urls')),
+    path('api/', include('apps.service_auth.urls')),
     path('api/', include('apps.reports.urls')),
 ]
