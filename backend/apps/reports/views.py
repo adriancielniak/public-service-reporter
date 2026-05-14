@@ -10,7 +10,7 @@ from .models import Report
 from .serializers import ReportSerializer
 from apps.service_auth.permissions import IsOwner
 
-
+# POST /api/reports/create/
 class CreateReportView(APIView):
     authentication_classes = [TokenAuthentication]
     # user musi byc zalogowany
@@ -27,6 +27,7 @@ class CreateReportView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# PATCH /api/reports/<int:pk>/edit/
 class UpdateReportView(APIView):
     authentication_classes = [TokenAuthentication]
     # zalogowany i wlasciciel raportu
@@ -47,3 +48,17 @@ class UpdateReportView(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# GET /api/reports/
+class UserReportListView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # order by najnowsze
+        reports = Report.objects.filter(user=request.user).order_by('-created_at')
+
+        # many=True bo lista
+        serializer = ReportSerializer(reports, many=True)
+
+        return Response(serializer.data)
