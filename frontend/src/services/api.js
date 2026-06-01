@@ -17,6 +17,12 @@ export const storeToken = (token) => {
   api.defaults.headers.common.Authorization = `Token ${token}`;
 };
 
+export const clearToken = () => {
+  localStorage.removeItem("psr_token");
+  delete api.defaults.headers.common.Authorization;
+};
+
+
 
 const existingToken = getStoredToken();
 if (existingToken) {

@@ -62,6 +62,7 @@
 
 <script setup>
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import api, { storeToken } from "../services/api";
 
 const form = reactive({
@@ -72,6 +73,7 @@ const form = reactive({
 const loading = ref(false);
 const error = ref("");
 const success = ref("");
+const router = useRouter();
 
 const handleLogin = async () => {
   error.value = "";
@@ -90,6 +92,7 @@ const handleLogin = async () => {
 
     storeToken(response.data.token);
     success.value = "Zalogowano. Token zapisany lokalnie.";
+    await router.push({ name: "dashboard" });
   } catch (err) {
     const apiMessage = err?.response?.data?.error;
     error.value = apiMessage || "Nie udalo sie zalogowac. Sprobuj ponownie.";
