@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U reporter"]
+      test: ["CMD-SHELL", "pg_isready -U reporter -d public_service_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,9 +22,13 @@ services:
       context: ./backend
       dockerfile: ../docker/Dockerfile.backend
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
-      DATABASE_URL: postgresql://reporter:reporter_pass@db:5432/public_service_db
+      POSTGRES_DB: public_service_db
+      POSTGRES_USER: reporter
+      POSTGRES_PASSWORD: reporter_pass
+      DB_HOST: db
+      DB_PORT: "5432"
       DEBUG: "True"
     volumes:
       - ./backend:/app
@@ -38,11 +42,11 @@ services:
       context: ./frontend
       dockerfile: ../docker/Dockerfile.frontend
     ports:
-      - "3000:3000"
+      - "3000:8080"
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: npm run serve
+    command: sh -c "npm install && npm run serve"
 
 volumes:
   postgres_data:
