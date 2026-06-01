@@ -1,25 +1,24 @@
 <template>
-  <section class="login-grid">
+  <section class="register-grid">
     <div class="welcome">
-      <p class="eyebrow">Szybkie zgloszenia</p>
-      <h1>Zaloguj sie i przekaz problem w gminie.</h1>
+      <p class="eyebrow">Nowe konto</p>
+      <h1>Zarejestruj konto mieszkanca.</h1>
       <p class="lead">
-        Panel pozwala dodawac nowe zgloszenia, sledzic status i szybko
-        edytowac tresc raportu.
+        Podaj podstawowe dane, aby uzyskac dostep do panelu zgloszen.
       </p>
       <div class="feature-card">
-        <p class="feature-title">Co potrafi panel?</p>
+        <p class="feature-title">Wymagane dane</p>
         <ul>
-          <li>Nowe zgloszenie w kilka sekund</li>
-          <li>Historia i edycja raportow</li>
-          <li>Bezpieczny dostep przez token</li>
+          <li>Login i haslo</li>
+          <li>Adres e-mail</li>
+          <li>Rola uzytkownika</li>
         </ul>
       </div>
     </div>
 
-    <form class="login-card" @submit.prevent="handleLogin">
-      <h2>Logowanie</h2>
-      <p class="hint">Uzyj loginu i hasla zarejestrowanego w systemie.</p>
+    <form class="register-card" @submit.prevent="handleRegister">
+      <h2>Rejestracja</h2>
+      <p class="hint">Utworz konto, aby zglaszac problemy w gminie.</p>
 
       <label class="field">
         <span>Login</span>
@@ -27,7 +26,18 @@
           v-model.trim="form.username"
           type="text"
           autocomplete="username"
-          placeholder="np. jana.kowalska"
+          placeholder="np. jan.kowalski"
+          required
+        />
+      </label>
+
+      <label class="field">
+        <span>E-mail</span>
+        <input
+          v-model.trim="form.email"
+          type="email"
+          autocomplete="email"
+          placeholder="jan.kowalski@email.com"
           required
         />
       </label>
@@ -37,24 +47,41 @@
         <input
           v-model.trim="form.password"
           type="password"
-          autocomplete="current-password"
-          placeholder="Twoje haslo"
+          autocomplete="new-password"
+          placeholder="Minimum 8 znakow"
           required
         />
+      </label>
+
+      <label class="field">
+        <span>Rola</span>
+        <select v-model="form.role" required>
+          <option value="standard">Mieszkaniec</option>
+          <option value="worker">Pracownik</option>
+          <option value="admin">Administrator</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Dodatkowe informacje</span>
+        <textarea
+          v-model.trim="form.data"
+          rows="3"
+          placeholder="np. osiedle, numer kontaktowy"
+        ></textarea>
       </label>
 
       <p v-if="error" class="error">{{ error }}</p>
       <p v-if="success" class="success">{{ success }}</p>
 
       <button type="submit" :disabled="loading">
-        <span v-if="loading">Logowanie...</span>
-        <span v-else>Zaloguj</span>
+        <span v-if="loading">Tworzenie konta...</span>
+        <span v-else>Zarejestruj</span>
       </button>
 
-      <p class="note">Po zalogowaniu token zostanie zapisany lokalnie.</p>
       <p class="note">
-        Nie masz konta?
-        <router-link class="link" to="/register">Zarejestruj sie</router-link>
+        Masz juz konto?
+        <router-link class="link" to="/login">Zaloguj sie</router-link>
       </p>
     </form>
   </section>
@@ -62,37 +89,45 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import api, { storeToken } from "../services/api";
+import api from "../services/api";
 
 const form = reactive({
   username: "",
-  password: ""
+  email: "",
+  password: "",
+  role: "standard",
+  data: ""
 });
 
 const loading = ref(false);
 const error = ref("");
 const success = ref("");
 
-const handleLogin = async () => {
+const handleRegister = async () => {
   error.value = "";
   success.value = "";
   loading.value = true;
 
   try {
-    const response = await api.post("/api/login/", {
+    await api.post("/api/register/", {
       username: form.username,
-      password: form.password
+      email: form.email,
+      password: form.password,
+      role: form.role,
+      data: form.data
     });
 
-    if (!response.data?.token) {
-      throw new Error("Brak tokena w odpowiedzi API.");
-    }
-
-    storeToken(response.data.token);
-    success.value = "Zalogowano. Token zapisany lokalnie.";
+    success.value = "Konto utworzone. Mozesz sie teraz zalogowac.";
   } catch (err) {
-    const apiMessage = err?.response?.data?.error;
-    error.value = apiMessage || "Nie udalo sie zalogowac. Sprobuj ponownie.";
+    const apiErrors = err?.response?.data;
+    if (apiErrors && typeof apiErrors === "object") {
+      const firstKey = Object.keys(apiErrors)[0];
+      error.value = Array.isArray(apiErrors[firstKey])
+        ? apiErrors[firstKey][0]
+        : "Nie udalo sie utworzyc konta.";
+    } else {
+      error.value = "Nie udalo sie utworzyc konta.";
+    }
   } finally {
     loading.value = false;
   }
@@ -100,7 +135,7 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.login-grid {
+.register-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 32px;
@@ -146,7 +181,7 @@ const handleLogin = async () => {
   color: var(--ink-muted);
 }
 
-.login-card {
+.register-card {
   background: var(--surface);
   border-radius: 18px;
   padding: 28px;
@@ -166,12 +201,15 @@ const handleLogin = async () => {
   font-weight: 500;
 }
 
-.field input {
+.field input,
+.field select,
+.field textarea {
   border: 1px solid rgba(15, 23, 42, 0.15);
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 14px;
   background: #fff;
+  font-family: inherit;
 }
 
 button {
