@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "vue": "^3.0.0",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@vue/cli-service": "^5.0.0"
