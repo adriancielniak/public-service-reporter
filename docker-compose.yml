@@ -19,8 +19,8 @@ services:
 
   backend:
     build:
-      context: ./backend
-      dockerfile: ../docker/Dockerfile.backend
+      context: .
+      dockerfile: docker/Dockerfile.backend
     ports:
       - "5001:5000"
     environment:
@@ -30,23 +30,16 @@ services:
       DB_HOST: db
       DB_PORT: "5432"
       DEBUG: "True"
-    volumes:
-      - ./backend:/app
     depends_on:
       db:
         condition: service_healthy
-    command: python manage.py runserver 0.0.0.0:5000
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: ../docker/Dockerfile.frontend
+      context: .
+      dockerfile: docker/Dockerfile.frontend
     ports:
       - "3000:8080"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: sh -c "npm install && npm run serve"
 
 volumes:
   postgres_data:
