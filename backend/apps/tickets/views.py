@@ -56,3 +56,26 @@ class AssignTicketView(APIView):
 
         serializer = TicketSerializer(ticket)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# PATCH /api/tickets/<int:pk>/update/
+class AddTicketUpdateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        ticket = get_object_or_404(Ticket, pk=pk)
+
+        new_update_text = request.data.get('update')
+
+        if not new_update_text:
+            return Response(
+                {"error": "Pole 'update' nie może być puste."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        ticket.updates.append(new_update_text)
+        ticket.save()
+
+        serializer = TicketSerializer(ticket)
+        return Response(serializer.data, status=status.HTTP_200_OK)
