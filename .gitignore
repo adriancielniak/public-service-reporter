@@ -28,6 +28,9 @@ yarn-debug.log*
 .env
 .env.local
 
+# SQLite
+*.sqlite3
+
 # OS
 .DS_Store
 Thumbs.db

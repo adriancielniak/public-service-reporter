@@ -12,6 +12,7 @@ from rest_framework.authtoken.models import Token
 # dodac weryfikacje np email
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    serializer_class = RegisterSerializer
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
