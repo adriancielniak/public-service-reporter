@@ -1,0 +1,35 @@
+:root {
+  --accent: #0f766e;
+  --ink: #0f172a;
+  --ink-muted: #4b5563;
+  --ink-inverse: #f8fafc;
+  --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.72);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Spectral", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(135deg, #f2f6f3 0%, #f7f3f0 45%, #eef4fb 100%);
+  min-height: 100vh;
+}
+
+#app {
+  animation: fade-in 0.6s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
