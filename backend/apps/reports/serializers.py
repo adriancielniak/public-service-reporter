@@ -5,10 +5,11 @@ from .models import Report
 
 class ReportSerializer(serializers.ModelSerializer):
     user_id = serializers.ReadOnlyField(source='user.id')
+    ticket_id = serializers.ReadOnlyField(source='ticket.id')
 
     class Meta:
         model = Report
-        fields = ['id', 'user_id', 'content', 'created_at']
+        fields = ['id', 'user_id', 'ticket_id', 'content', 'latitude', 'longitude', 'created_at']
 
     def create(self, validated_data):
 

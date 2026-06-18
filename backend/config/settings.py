@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'apps.service_auth',
-    'apps.reports'
+    'apps.reports',
+    'apps.tickets'
 ]
 
 AUTH_USER_MODEL = 'service_auth.User'
