@@ -5,10 +5,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from ..service_auth.permissions import IsWorkerOrAdmin
+
 
 from .models import Ticket
 from .serializers import TicketSerializer
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
@@ -16,7 +19,7 @@ User = get_user_model()
 # POST /api/tickets/create/
 class CreateTicketView(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsWorkerOrAdmin]
 
     def post(self, request):
         serializer = TicketSerializer(data=request.data)
@@ -28,7 +31,7 @@ class CreateTicketView(APIView):
 # PATCH /api/tickets/<int:pk>/assign/
 class AssignTicketView(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsWorkerOrAdmin]
 
     def patch(self, request, pk):
         ticket = get_object_or_404(Ticket, pk=pk)
@@ -61,7 +64,7 @@ class AssignTicketView(APIView):
 # PATCH /api/tickets/<int:pk>/update/
 class AddTicketUpdateView(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsWorkerOrAdmin]
 
     def patch(self, request, pk):
         ticket = get_object_or_404(Ticket, pk=pk)
