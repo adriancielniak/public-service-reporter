@@ -8,7 +8,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'user_id', 'content', 'created_at']
+        fields = ['id', 'user_id', 'content', 'latitude', 'longitude', 'created_at']
 
     def create(self, validated_data):
 

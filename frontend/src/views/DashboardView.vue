@@ -24,6 +24,17 @@
           ></textarea>
         </label>
 
+        <!-- Komponent mapy do wyboru lokalizacji -->
+        <MapaPicker
+          @locationSelected="handleLocationSelected"
+          :latitude="newReportLocation.latitude"
+          :longitude="newReportLocation.longitude"
+        />
+
+        <p v-if="newReportLocation.latitude" class="location-selected">
+          ✓ Lokalizacja wybrana: ({{ newReportLocation.latitude.toFixed(6) }}, {{ newReportLocation.longitude.toFixed(6) }})
+        </p>
+
         <p v-if="createError" class="error">{{ createError }}</p>
         <p v-if="createSuccess" class="success">{{ createSuccess }}</p>
 
@@ -67,6 +78,7 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import api, { clearToken } from "../services/api";
+import MapaPicker from "../components/MapaPicker.vue";
 
 const router = useRouter();
 
@@ -75,6 +87,11 @@ const loading = ref(false);
 const loadError = ref("");
 
 const newReport = ref("");
+const newReportLocation = ref({
+  latitude: null,
+  longitude: null,
+  address: ""
+});
 const creating = ref(false);
 const createError = ref("");
 const createSuccess = ref("");
@@ -100,7 +117,9 @@ const handleCreate = async () => {
 
   try {
     const response = await api.post("/api/reports/create/", {
-      content: newReport.value
+      content: newReport.value,
+      latitude: newReportLocation.value.latitude,
+      longitude: newReportLocation.value.longitude
     });
 
     if (response.data) {
@@ -108,6 +127,11 @@ const handleCreate = async () => {
     }
 
     newReport.value = "";
+    newReportLocation.value = {
+      latitude: null,
+      longitude: null,
+      address: ""
+    };
     createSuccess.value = "Zgloszenie dodane.";
   } catch (err) {
     createError.value = "Nie udalo sie dodac zgloszenia.";
@@ -119,6 +143,15 @@ const handleCreate = async () => {
 const handleLogout = async () => {
   clearToken();
   await router.push({ name: "login" });
+};
+
+const handleLocationSelected = (location) => {
+  newReportLocation.value = {
+    latitude: location.latitude,
+    longitude: location.longitude,
+    address: location.address
+  };
+  createError.value = "";
 };
 
 const formatDate = (value) => {
@@ -267,6 +300,16 @@ button:not(:disabled):hover {
 .success {
   color: #1b7f4b;
   font-weight: 600;
+}
+
+.location-selected {
+  color: #1b7f4b;
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0.75rem;
+  background-color: #d4edda;
+  border-left: 3px solid #1b7f4b;
+  border-radius: 0.25rem;
 }
 
 @media (max-width: 720px) {

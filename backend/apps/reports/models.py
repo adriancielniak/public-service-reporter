@@ -14,6 +14,8 @@ class Report(models.Model):
         related_name='reports'
     )
     content = models.TextField()
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

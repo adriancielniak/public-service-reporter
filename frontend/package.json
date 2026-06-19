@@ -11,7 +11,9 @@
   "dependencies": {
     "vue": "^3.0.0",
     "axios": "^1.4.0",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^2.4.0"
   },
   "devDependencies": {
     "@vue/cli-service": "^5.0.0"
