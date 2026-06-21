@@ -1,6 +1,8 @@
 <template>
   <div class="app-shell">
-    <header class="topbar">
+    <NavBar v-if="isLoggedIn" />
+    
+    <header class="topbar" v-if="!isLoggedIn">
       <div class="brand">
         <span class="brand-mark">PSR</span>
         <div>
@@ -21,12 +23,18 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import NavBar from './components/NavBar.vue';
+import { isAuthenticated } from './services/api';
+
+const route = useRoute();
+const isLoggedIn = computed(() => isAuthenticated.value && !route.meta.public);
 </script>
 
 <style>
 .app-shell {
   min-height: 100vh;
-  padding: 40px clamp(20px, 4vw, 60px) 80px;
   position: relative;
   overflow: hidden;
 }
@@ -81,6 +89,9 @@
 }
 
 .page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px clamp(20px, 4vw, 60px) 80px;
   position: relative;
   z-index: 1;
 }

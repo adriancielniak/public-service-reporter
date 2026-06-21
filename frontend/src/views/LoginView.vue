@@ -90,9 +90,9 @@ const handleLogin = async () => {
       throw new Error("Brak tokena w odpowiedzi API.");
     }
 
-    storeToken(response.data.token);
+    storeToken(response.data.token, response.data.user_id);
     success.value = "Zalogowano. Token zapisany lokalnie.";
-    await router.push({ name: "dashboard" });
+    await router.push({ name: "feed" });
   } catch (err) {
     const apiMessage = err?.response?.data?.error;
     error.value = apiMessage || "Nie udalo sie zalogowac. Sprobuj ponownie.";

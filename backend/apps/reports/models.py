@@ -16,7 +16,16 @@ class Report(models.Model):
     content = models.TextField()
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    likes = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_reports',
+        blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-likes', '-created_at']
 
     def __str__(self):
         return f"Report {self.id} by {self.user}"

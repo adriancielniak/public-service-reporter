@@ -1,4 +1,5 @@
 # apps/reports/views.py
+from django.db.models import F
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -61,4 +62,38 @@ class UserReportListView(APIView):
         # many=True bo lista
         serializer = ReportSerializer(reports, many=True)
 
+        return Response(serializer.data)
+
+
+# GET /api/reports/all/
+class AllReportsListView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        reports = Report.objects.all()
+        serializer = ReportSerializer(reports, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+# POST /api/reports/<int:pk>/like/
+class LikeReportView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        report = get_object_or_404(Report, pk=pk)
+
+        if report.user == request.user:
+            return Response({'detail': 'Nie możesz potwierdzić własnego zgłoszenia.'}, status=status.HTTP_403_FORBIDDEN)
+
+        if report.liked_by.filter(pk=request.user.pk).exists():
+            report.liked_by.remove(request.user)
+            Report.objects.filter(pk=pk).update(likes=F('likes') - 1)
+        else:
+            report.liked_by.add(request.user)
+            Report.objects.filter(pk=pk).update(likes=F('likes') + 1)
+
+        report.refresh_from_db()
+        serializer = ReportSerializer(report, context={'request': request})
         return Response(serializer.data)
