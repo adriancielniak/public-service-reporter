@@ -65,9 +65,10 @@ onMounted(() => {
 
   map = L.map('mapa-container').setView([defaultLat, defaultLng], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
   }).addTo(map);
 
   // Dodanie markera jeśli są już koordynaty
@@ -86,12 +87,20 @@ onMounted(() => {
 });
 
 // Dodanie lub przeniesienie markera
+const pinIcon = L.divIcon({
+  className: '',
+  html: '<div class="picker-pin"></div>',
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
+  popupAnchor: [0, -12]
+});
+
 const addMarker = (lat, lng) => {
   if (marker) {
     map.removeLayer(marker);
   }
 
-  marker = L.marker([lat, lng])
+  marker = L.marker([lat, lng], { icon: pinIcon })
     .addTo(map)
     .bindPopup(`Szerokość: ${lat.toFixed(6)}<br>Długość: ${lng.toFixed(6)}`);
 
@@ -303,5 +312,16 @@ h3 {
 .field span {
   font-weight: 500;
   font-size: 0.95rem;
+}
+</style>
+
+<style>
+.picker-pin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 </style>
