@@ -30,6 +30,14 @@
             ➕ Nowe zgłoszenie
           </router-link>
         </li>
+        <li v-if="currentRole === 'admin' || currentRole === 'worker'">
+          <router-link
+            to="/admin"
+            :class="['nav-link', 'nav-link--admin', { active: $route.name === 'admin' }]"
+          >
+            ⚙️ Panel admina
+          </router-link>
+        </li>
       </ul>
       <button class="logout-btn" type="button" @click="handleLogout">Wyloguj</button>
     </div>
@@ -38,7 +46,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { clearToken } from '../services/api';
+import { clearToken, currentRole } from '../services/api';
 
 const router = useRouter();
 
@@ -128,5 +136,18 @@ const handleLogout = async () => {
 .logout-btn:hover {
   color: #c0362c;
   border-color: #c0362c;
+}
+
+.nav-link--admin {
+  color: #7c3aed;
+}
+.nav-link--admin:hover {
+  background: rgba(124, 58, 237, 0.08);
+  color: #7c3aed;
+}
+.nav-link--admin.active {
+  background: #7c3aed;
+  border-color: #7c3aed;
+  color: #fff;
 }
 </style>

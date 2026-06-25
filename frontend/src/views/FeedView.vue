@@ -22,22 +22,33 @@
             @click="focusReport(report)"
           >
             <div class="feed-content">
-              <p class="report-text">{{ report.content }}</p>
+              <div class="report-top">
+                <p class="report-text">{{ report.content }}</p>
+                <span :class="`status-badge status-badge--${report.status}`">{{ STATUS_LABELS[report.status] }}</span>
+              </div>
               <p class="report-meta">
                 {{ formatDate(report.created_at) }}
                 <span v-if="report.latitude"> · 📍</span>
               </p>
             </div>
-            <button
-              class="confirm-btn"
-              :class="{ confirmed: report.user_has_liked, own: report.user_id === currentUserId }"
-              :disabled="report.user_id === currentUserId"
-              :title="report.user_id === currentUserId ? 'Nie możesz potwierdzić własnego zgłoszenia' : ''"
-              @click.stop="handleLike(report.id)"
-            >
-              <span v-if="report.user_has_liked">✓ {{ report.likes }}</span>
-              <span v-else>✓ {{ report.likes }}</span>
-            </button>
+            <div class="feed-actions">
+              <button
+                class="confirm-btn"
+                :class="{ confirmed: report.user_has_liked, own: report.user_id === currentUserId }"
+                :disabled="report.user_id === currentUserId"
+                :title="report.user_id === currentUserId ? 'Nie możesz potwierdzić własnego zgłoszenia' : ''"
+                @click.stop="handleLike(report.id)"
+              >
+                ✓ {{ report.likes }}
+              </button>
+              <router-link
+                :to="{ name: 'report-detail', params: { id: report.id } }"
+                class="open-btn"
+                @click.stop
+              >
+                →
+              </router-link>
+            </div>
           </li>
         </ul>
 
@@ -60,6 +71,13 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+
+const STATUS_LABELS = {
+  new: 'Nowe',
+  in_progress: 'W realizacji',
+  resolved: 'Rozwiązane',
+  rejected: 'Odrzucone',
+};
 import api, { currentUserId } from "../services/api";
 import ReportsMap from "../components/ReportsMap.vue";
 
@@ -202,10 +220,39 @@ onMounted(fetchReports);
   -webkit-box-orient: vertical;
 }
 
+.report-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .report-meta {
   margin: 0;
   color: var(--ink-muted);
   font-size: 11px;
+}
+
+.status-badge {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.status-badge--new        { background: #dbeafe; color: #1d4ed8; }
+.status-badge--in_progress{ background: #fef3c7; color: #92400e; }
+.status-badge--resolved   { background: #dcfce7; color: #166534; }
+.status-badge--rejected   { background: #fee2e2; color: #991b1b; }
+
+/* Akcje */
+.feed-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 /* Przycisk potwierdzenia */
@@ -238,6 +285,26 @@ onMounted(fetchReports);
 .confirm-btn.own {
   opacity: 0.35;
   cursor: not-allowed;
+}
+
+.open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(15,23,42,.15);
+  border-radius: 10px;
+  background: #fff;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: all .2s;
+}
+.open-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(99,102,241,.05);
 }
 
 /* Mapa */
