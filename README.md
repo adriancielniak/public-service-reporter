@@ -5,7 +5,6 @@
 🎯 Purpose & ObjectivesTraditional methods of reporting civic issues (such as phone calls or physical paperwork) often lead to delayed response times, lost data, and lack of transparency for citizens. PSR was developed to solve these friction points by achieving the following goals:Empower Citizens: Give residents an effortless, instant way to report localized problems with exact geographical pinning right from their devices.Optimize Municipal Workflow: Provide municipal workers with an automated queue system to track, triage, and update the status of infrastructure repairs.  Increase Transparency: Keep the public informed about community issues, preventing duplicate reports and building trust through clear visual updates on resolution progress.Support Data-Driven Decisions: Aggregate spatial and categorical data so city planners can easily identify recurring problematic zones or infrastructure trends.
 
 The ecosystem is built with absolute decoupled scalability in mind:
-Plaintext
 
  📱 VUE 3 FRONTEND SPA                🔒 DJANGO REST FRAMEWORK API
 +------------------------+          +-------------------------------+
