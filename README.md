@@ -6,18 +6,19 @@
 
 The ecosystem is built with absolute decoupled scalability in mind:
 
- 📱 VUE 3 FRONTEND SPA                🔒 DJANGO REST FRAMEWORK API
-+------------------------+          +-------------------------------+
-|  Leaflet Map Layer     |          |  Custom AbstractUser Model    |
-|  (User GPS Location)   |          |  (standard / worker / admin)  |
-+-----------+------------+          +---------------+---------------+
-            |                                       ^
-            |  Secure HTTP Requests                 |  Enforces Object Ownership
-            v  (Bearer Token Auth)                  v  & Global Security Guards
-+-----------+------------+          +---------------+---------------+
-|  Scentralized Axios    |--------->|  Custom RBAC Permission Layer |
-|  & Reactive State Refs |          |  (IsOwner & IsAdmin Rules)    |
-+------------------------+          +-------------------------------+
+📱 VUE 3 FRONTEND SPA                               🔒 DJANGO REST FRAMEWORK API
++---------------------------+                      +-------------------------------+
+|     Leaflet Map Layer     |                      |    Custom AbstractUser Model  |
+|    (User GPS Location)    |                      |  (standard / worker / admin)  |
++-------------+-------------+                      +---------------+---------------+
+              |                                                    |
+   Interacts  |                                                    | Evaluates User
+   With State |                                                    | Roles
+              v                                                    v
++-------------+-------------+  Secure HTTP Requests  +---------------+---------------+
+|    Centralized Axios      |=====================>|  Custom RBAC Permission Layer |
+|  & Reactive State Refs    |  (DRF Token Auth)    |   (IsOwner & IsAdmin Rules)   |
++---------------------------+                      +-------------------------------+
 
 ## Tech Stack
 - **Frontend**: Vue.js
