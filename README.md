@@ -76,8 +76,9 @@ python app.py
 
 ## Team
 
-- **Frontend**: [imię kolegi]
-- **Backend**: [imię kolegi]
-- **DevOps/Docker**: [imię kolegi]
-- **Documentation**: [imię kolegi]
+- **Frontend**: Adrian Cielniak
+- **Backend**: Tymoteusz Blaszcz
+- **Database: Adrian Cielniak
+- **DevOps/Docker**: Wojciech Zola
+- **Documentation**: Wojciech Zola
 
