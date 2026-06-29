@@ -1,6 +1,6 @@
 # Public Service Reporter
 
-🏛️ About Public Service Reporter (PSR)Public Service Reporter (PSR) is an open-source, full-stack municipal management platform designed to bridge the gap between local citizens and community officials. The application automates the detection, reporting, and systematic monitoring of infrastructural issues, safety hazards, and public utility failures within public spaces.  By providing an intuitive spatial reporting system for residents and a robust management dashboard for local authorities, PSR digitizes municipal workflows, making community maintenance transparent, efficient, and data-driven.
+🏛️ About Public Service Reporter (PSR)Public Service Reporter (PSR) is a full-stack municipal management platform designed to bridge the gap between local citizens and community officials. The application automates the detection, reporting, and systematic monitoring of infrastructural issues, safety hazards, and public utility failures within public spaces.  By providing an intuitive spatial reporting system for residents and a robust management dashboard for local authorities, PSR digitizes municipal workflows, making community maintenance transparent, efficient, and data-driven.
 
 🎯 Purpose & ObjectivesTraditional methods of reporting civic issues (such as phone calls or physical paperwork) often lead to delayed response times, lost data, and lack of transparency for citizens. PSR was developed to solve these friction points by achieving the following goals:Empower Citizens: Give residents an effortless, instant way to report localized problems with exact geographical pinning right from their devices.Optimize Municipal Workflow: Provide municipal workers with an automated queue system to track, triage, and update the status of infrastructure repairs.  Increase Transparency: Keep the public informed about community issues, preventing duplicate reports and building trust through clear visual updates on resolution progress.Support Data-Driven Decisions: Aggregate spatial and categorical data so city planners can easily identify recurring problematic zones or infrastructure trends.
 
@@ -79,7 +79,5 @@ python app.py
 - **Frontend**: [imię kolegi]
 - **Backend**: [imię kolegi]
 - **DevOps/Docker**: [imię kolegi]
+- **Documentation**: [imię kolegi]
 
-## Notes ???
-
-Szczegóły modelu danych i endpointów API zostaną ustaleni w trakcie pracy.
