@@ -78,7 +78,7 @@ python app.py
 
 - **Frontend**: Adrian Cielniak
 - **Backend**: Tymoteusz Blaszcz
-- **Database: Adrian Cielniak
+- **Database**: Adrian Cielniak
 - **DevOps/Docker**: Wojciech Zola
 - **Documentation**: Wojciech Zola
 
