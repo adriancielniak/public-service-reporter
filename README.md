@@ -1,14 +1,32 @@
 # Public Service Reporter
 
-Aplikacja do zgłaszania problemów dla mieszkańców gminy.
+🏛️ About Public Service Reporter (PSR)Public Service Reporter (PSR) is a full-stack municipal management platform designed to bridge the gap between local citizens and community officials. The application automates the detection, reporting, and systematic monitoring of infrastructural issues, safety hazards, and public utility failures within public spaces.  By providing an intuitive spatial reporting system for residents and a robust management dashboard for local authorities, PSR digitizes municipal workflows, making community maintenance transparent, efficient, and data-driven.
 
-## Stack techniczny
+🎯 Purpose & ObjectivesTraditional methods of reporting civic issues (such as phone calls or physical paperwork) often lead to delayed response times, lost data, and lack of transparency for citizens. PSR was developed to solve these friction points by achieving the following goals:Empower Citizens: Give residents an effortless, instant way to report localized problems with exact geographical pinning right from their devices.Optimize Municipal Workflow: Provide municipal workers with an automated queue system to track, triage, and update the status of infrastructure repairs.  Increase Transparency: Keep the public informed about community issues, preventing duplicate reports and building trust through clear visual updates on resolution progress.Support Data-Driven Decisions: Aggregate spatial and categorical data so city planners can easily identify recurring problematic zones or infrastructure trends.
+
+The ecosystem is built with absolute decoupled scalability in mind:
+
+📱 VUE 3 FRONTEND SPA                               🔒 DJANGO REST FRAMEWORK API
++---------------------------+                      +-------------------------------+
+|     Leaflet Map Layer     |                      |    Custom AbstractUser Model  |
+|    (User GPS Location)    |                      |  (standard / worker / admin)  |
++-------------+-------------+                      +---------------+---------------+
+              |                                                    |
+   Interacts  |                                                    | Evaluates User
+   With State |                                                    | Roles
+              v                                                    v
++-------------+-------------+  Secure HTTP Requests  +---------------+---------------+
+|    Centralized Axios      |=====================>|  Custom RBAC Permission Layer |
+|  & Reactive State Refs    |  (DRF Token Auth)    |   (IsOwner & IsAdmin Rules)   |
++---------------------------+                      +-------------------------------+
+
+## Tech Stack
 - **Frontend**: Vue.js
 - **Backend**: Python (Django + Django REST Framework)
 - **Baza danych**: PostgreSQL
 - **Konteneryzacja**: Docker
 
-## Struktura projektu
+## Project Structure
 
 ```
 public-service-reporter/
@@ -19,18 +37,21 @@ public-service-reporter/
 └── README.md          # Ten plik
 ```
 
-## Szybki start
+## Quick Start
 
-### Wymagania
-- Docker i Docker Compose
+### System & DevOps Requirements
 
-### Uruchomienie całej aplikacji
+    Docker & Docker Compose: Used for full-stack containerization, isolation, and orchestration of the environment.
+    Node.js Environment: Node.js (LTS recommended) and npm are required to manage dependencies, linting, and building the production-ready client bundles.
+    Python Environment: Python 3.11+ along with a virtual environment (venv) if running the API service outside of Docker.
+
+### Launching the app
 
 ```bash
 docker-compose up
 ```
 
-Aplikacja będzie dostępna:
+Application will be accessible:
 - **Frontend**: http://localhost:3000
 - **Backend**: http://localhost:5000
 - **Baza danych**: localhost:5432
@@ -53,12 +74,11 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## Zespół
+## Team
 
-- **Frontend**: [imię kolegi]
-- **Backend**: [imię kolegi]
-- **DevOps/Docker**: [imię kolegi]
+- **Frontend**: Adrian Cielniak
+- **Backend**: Tymoteusz Blaszcz
+- **Database: Adrian Cielniak
+- **DevOps/Docker**: Wojciech Zola
+- **Documentation**: Wojciech Zola
 
-## Notatki
-
-Szczegóły modelu danych i endpointów API zostaną ustaleni w trakcie pracy.
