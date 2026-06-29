@@ -39,8 +39,11 @@ public-service-reporter/
 
 ## Quick Start
 
-### Wymagania
-- Docker i Docker Compose
+### System & DevOps Requirements
+
+    Docker & Docker Compose: Used for full-stack containerization, isolation, and orchestration of the environment.
+    Node.js Environment: Node.js (LTS recommended) and npm are required to manage dependencies, linting, and building the production-ready client bundles.
+    Python Environment: Python 3.11+ along with a virtual environment (venv) if running the API service outside of Docker.
 
 ### Launching the app
 
